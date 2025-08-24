@@ -1,7 +1,6 @@
 using FabrikamContracts.DTOs;
 using FabrikamMcp.Services;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 
 namespace FabrikamMcp.Controllers;
 
@@ -203,14 +202,14 @@ public class UserRegistrationController : ControllerBase
             // Generate new service JWT
             var serviceJwt = await _serviceJwtService.GenerateServiceTokenAsync(
                 userGuid, 
-                request.AuthenticationMode, 
+                request.AuthenticationMode ?? AuthenticationMode.Disabled, 
                 request.SessionId);
 
             var response = new ServiceJwtResponse
             {
                 UserGuid = userGuid,
                 ServiceJwt = serviceJwt,
-                AuthenticationMode = request.AuthenticationMode,
+                AuthenticationMode = request.AuthenticationMode ?? AuthenticationMode.Disabled,
                 ExpiresAt = DateTime.UtcNow.AddMinutes(60), // Default 1 hour
                 Message = "Service JWT generated successfully"
             };
@@ -237,12 +236,11 @@ public class UserRegistrationController : ControllerBase
             Status = "Healthy",
             Service = "UserRegistration",
             Timestamp = DateTime.UtcNow,
-            GuidValidation = new ValidationConfigResponse
+            GuidValidation = new
             {
                 Enabled = _guidSettings.ValidateMicrosoftGuidFormat,
                 DatabaseValidation = _guidSettings.ValidateGuidInDatabase,
-                CacheMinutes = _guidSettings.ValidationCacheMinutes,
-                Rules = _guidSettings.ValidationRules
+                CacheMinutes = _guidSettings.ValidationCacheMinutes
             }
         });
     }

@@ -219,7 +219,7 @@ public class FabrikamCustomerServiceTools : AuthenticatedMcpToolBase
     public async Task<object> GetCustomerServiceAnalytics(string? userGuid = null, string? fromDate = null, string? toDate = null)
     {
         // Validate GUID requirement based on authentication mode
-        if (!ValidateGuidRequirement(userGuid, nameof(GetCustomerServiceAnalytics)))
+        if (!await ValidateGuidRequirement(userGuid, nameof(GetCustomerServiceAnalytics)))
         {
             return CreateGuidValidationErrorResponse(userGuid, nameof(GetCustomerServiceAnalytics));
         }

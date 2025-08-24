@@ -16,9 +16,22 @@ public class FabrikamBusinessIntelligenceTools : AuthenticatedMcpToolBase
 
     [McpServerTool, Description("Get comprehensive business dashboard with key metrics across sales, inventory, and customer service. Provides executive-level insights and performance indicators.")]
     public async Task<object> GetBusinessDashboard(
+        string? userGuid = null,
         string? timeframe = "30days",
         bool includeForecasts = false)
     {
+        // Validate GUID requirement based on authentication mode
+        if (!await ValidateGuidRequirement(userGuid, nameof(GetBusinessDashboard)))
+        {
+            return CreateGuidValidationErrorResponse(userGuid, nameof(GetBusinessDashboard));
+        }
+
+        // Validate authorization
+        if (!ValidateAuthorization(nameof(GetBusinessDashboard)))
+        {
+            return CreateAuthenticationErrorResponse(nameof(GetBusinessDashboard));
+        }
+
         try
         {
             var baseUrl = _configuration["FabrikamApi:BaseUrl"] ?? "https://fabrikam-api-dev.levelupcsp.com";

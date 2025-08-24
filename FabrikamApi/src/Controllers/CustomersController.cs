@@ -4,13 +4,15 @@ using FabrikamApi.Data;
 using FabrikamApi.Models;
 using FabrikamContracts.DTOs.Customers;
 using Microsoft.AspNetCore.Authorization;
+using FabrikamApi.Attributes;
 
 namespace FabrikamApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 [Authorize(Policy = "ApiAccess")] // SECURITY: Environment-aware authentication for all customer endpoints
-public class CustomersController : ControllerBase
+[RequireUserGuid] // SECURITY: Require X-User-GUID header for all customer endpoints
+public class CustomersController : GuidAuthenticatedControllerBase
 {
     private readonly FabrikamIdentityDbContext _context;
     private readonly ILogger<CustomersController> _logger;

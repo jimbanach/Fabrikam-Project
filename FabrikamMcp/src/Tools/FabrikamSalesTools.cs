@@ -33,7 +33,7 @@ public class FabrikamSalesTools : AuthenticatedMcpToolBase
         int pageSize = 20)
     {
         // Validate GUID requirement based on authentication mode
-        if (!ValidateGuidRequirement(userGuid, nameof(GetOrders)))
+        if (!await ValidateGuidRequirement(userGuid, nameof(GetOrders)))
         {
             return CreateGuidValidationErrorResponse(userGuid, nameof(GetOrders));
         }
@@ -309,7 +309,7 @@ public class FabrikamSalesTools : AuthenticatedMcpToolBase
     public async Task<object> GetSalesAnalytics(string? userGuid = null, string? fromDate = null, string? toDate = null)
     {
         // Validate GUID requirement based on authentication mode
-        if (!ValidateGuidRequirement(userGuid, nameof(GetSalesAnalytics)))
+        if (!await ValidateGuidRequirement(userGuid, nameof(GetSalesAnalytics)))
         {
             return CreateGuidValidationErrorResponse(userGuid, nameof(GetSalesAnalytics));
         }
@@ -499,7 +499,7 @@ public class FabrikamSalesTools : AuthenticatedMcpToolBase
     public async Task<object> GetCustomers(string? userGuid = null, int? customerId = null, string? region = null, int page = 1, int pageSize = 20)
     {
         // Validate GUID requirement based on authentication mode
-        if (!ValidateGuidRequirement(userGuid, nameof(GetCustomers)))
+        if (!await ValidateGuidRequirement(userGuid, nameof(GetCustomers)))
         {
             return CreateGuidValidationErrorResponse(userGuid, nameof(GetCustomers));
         }

@@ -30,7 +30,7 @@ public class FabrikamProductTools : AuthenticatedMcpToolBase
         int pageSize = 20)
     {
         // Validate GUID requirement based on authentication mode
-        if (!ValidateGuidRequirement(userGuid, nameof(GetProducts)))
+        if (!await ValidateGuidRequirement(userGuid, nameof(GetProducts)))
         {
             return CreateGuidValidationErrorResponse(userGuid, nameof(GetProducts));
         }
@@ -236,7 +236,7 @@ public class FabrikamProductTools : AuthenticatedMcpToolBase
         bool includeOutOfStock = true)
     {
         // Validate GUID requirement based on authentication mode
-        if (!ValidateGuidRequirement(userGuid, nameof(GetProductAnalytics)))
+        if (!await ValidateGuidRequirement(userGuid, nameof(GetProductAnalytics)))
         {
             return CreateGuidValidationErrorResponse(userGuid, nameof(GetProductAnalytics));
         }
